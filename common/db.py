@@ -82,6 +82,13 @@ class PlayerEntity(BaseModel):
     uid: int
     name: str
     pos: Vec3
+    head_icon: int = 200143
+    personal_card: int = 253001
+    phone_theme: int = 221000
+    phone_case: int = 254000
+    chat_bubble: int = 220000
+    pam_skin: int = 252000
+    player_outfit: list[int] = Field(default_factory=list)
 
 
 class PlayerMultiPath(BaseModel):

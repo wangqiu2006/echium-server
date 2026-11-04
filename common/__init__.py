@@ -11,4 +11,4 @@ IFIX_URL = (
 )
 
 # set this to False if you've downloaded the hotfix already
-SEND_HOTFIX = True
+SEND_HOTFIX = False

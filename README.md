@@ -2,7 +2,7 @@
 
 Honkai: Star Rail private server (4.5.52)
 
-Incase I haven't updated this project in a while, you can try updating it yourself with https://github.com/yuvlian/hsr-proto
+> 📖 **中文完整使用手册与故障解决技术复盘**：请参阅 [PROJECT_MANUAL.md](PROJECT_MANUAL.md) (包含 4.5.0 全量97角色、Fate 联动角色、突破4人阵容与指令大全)。
 
 ## General Showcase
 

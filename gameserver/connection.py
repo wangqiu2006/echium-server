@@ -59,8 +59,11 @@ class Connection:
         await self._send(buf)
 
     async def close(self) -> None:
-        self.writer.close()
-        await self.writer.wait_closed()
+        try:
+            self.writer.close()
+            await self.writer.wait_closed()
+        except Exception:
+            pass
 
     async def save_db(self) -> None:
         try:
@@ -102,3 +105,13 @@ class Connection:
                 Log.info("db has been refreshed")
         except (OSError, ValueError) as e:
             Log.error(f"failed refreshing db: {e}")
+
+    async def save_freesr(self) -> None:
+        try:
+            await AsyncFs.write_to_file(
+                srtools.FILE_NAME, self.freesr_data.model_dump_json(indent=2)
+            )
+            self.freesr_last_modified = SyncFs.get_last_modified_time(srtools.FILE_NAME)
+        except (OSError, ValueError) as e:
+            Log.error(f"failed saving freesr: {e}")
+

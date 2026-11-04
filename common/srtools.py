@@ -22,6 +22,7 @@ class Avatar(BaseModel):
     sp_value: int
     techniques: list[int]
     enhanced_id: int | None = None
+    dressed_skin_id: int | None = 0
 
 
 class DynamicKey(BaseModel):

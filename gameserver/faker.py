@@ -38,10 +38,19 @@ class FakeConnection:
             lightcones=[],
             avatars={},
             relics=[],
-            lineup=SimpleNamespace(overworld_lineup={}, custom_battle_lineup=None),
             scene_id=1,
-            player=SimpleNamespace(name="ok", uid=1),
-            multi_path=SimpleNamespace(tb_multi_path=FakeMultiPath.X),
+            lineup=SimpleNamespace(overworld_lineup={}, custom_battle_lineup=None),
+            multi_path=SimpleNamespace(tb_multi_path=FakeMultiPath.X, march_multi_path=FakeMultiPath.X),
+            player=SimpleNamespace(
+                name="ok",
+                uid=1,
+                head_icon=200143,
+                personal_card=253001,
+                phone_theme=221000,
+                phone_case=254000,
+                chat_bubble=220000,
+                pam_skin=252000,
+            ),
             calyx=SimpleNamespace(
                 group_id=1,
                 inst_id=1,
@@ -83,6 +92,9 @@ class FakeConnection:
         return msg()
 
     async def save_db(self):
+        pass
+
+    async def save_freesr(self):
         pass
 
     async def refresh_freesr(self):

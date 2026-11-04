@@ -116,11 +116,15 @@ class FreesrUtils:
 
     @staticmethod
     def relic_to_battle_relic_proto(relic: srt.Relic) -> proto.BattleRelic:
+    def relic_to_battle_relic_proto(
+        relic: srt.Relic, uid_offset: int = 0
+    ) -> proto.BattleRelic:
         return proto.BattleRelic(
             id=relic.relic_id,
             level=relic.level,
             main_affix_id=relic.main_affix_id,
             unique_id=relic.internal_uid,
+            unique_id=relic.internal_uid + uid_offset,
             sub_affix_list=[
                 FreesrUtils.subaffix_to_relic_affix(sub) for sub in relic.sub_affixes
             ],
@@ -183,6 +187,8 @@ class FreesrUtils:
         )
         ba.relic_list = [
             FreesrUtils.relic_to_battle_relic_proto(relic) for relic in relics
+            FreesrUtils.relic_to_battle_relic_proto(relic, uid_offset=index * 100000)
+            for relic in relics
         ]
         ba.world_level = 6
         ba.enhanced_id = av.enhanced_id if av.enhanced_id else 0

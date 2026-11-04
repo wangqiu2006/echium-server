@@ -34,24 +34,25 @@ async def handle_client(
             Log.warn("It has been overwritten.")
 
         c = Connection(reader, writer, my_data, freesr_data)
+        Log.info(f"client {addr} connected.")
         while True:
             try:
                 # plr heartbeat is roughly every 5 secs
                 # timeout cuz game can close w/o sending logout
                 pkt = await asyncio.wait_for(c.read_packet(), timeout=10.0)
                 cmd = pkt.cmd
-            except TimeoutError, EOFError:
-                Log.debug(f"EOFError or asyncio.TimeoutError {addr}")
+            except (TimeoutError, EOFError, ConnectionResetError, OSError):
+                Log.info(f"client disconnected or timeout: {addr}")
                 break
 
             try:
                 cmd_name = CmdRegistry.get_name(cmd)
-                Log.debug(f"got {cmd_name} ({cmd}) from {addr}")
-                if cmd_name == "PlayerLogoutCsReq":
-                    break
             except ValueError:
-                Log.warn(f"got UnregisteredCmd ({cmd}) from {addr}")
-                continue
+                cmd_name = "UnregisteredCmd"
+
+            Log.info(f"got {cmd_name} ({cmd} / 0x{cmd:04x}), body_len={len(pkt.body)} body_hex={pkt.body[:32].hex()} from {addr}")
+            if cmd_name == "PlayerLogoutCsReq":
+                break
 
             if handler := HANDLER_MAP.get(cmd):
                 try:
@@ -61,15 +62,19 @@ async def handle_client(
                     Log.error(f"==== TRACEBACK =====\n{traceback.format_exc()}")
                     Log.error("==== TRACEBACK =====")
             elif rsp_cmd := DUMMY_MAP.get(cmd):
+                Log.info(f"sending dummy rsp {rsp_cmd} for {cmd_name} ({cmd})")
                 await c.send_dummy(rsp_cmd)
             else:
                 Log.warn(f"unhandled cmd: {cmd_name} ({cmd})")
 
-    except (OSError, ValueError) as e:
+    except Exception as e:
         Log.error(f"client error {addr}: {e}")
         Log.error(f"==== TRACEBACK =====\n{traceback.format_exc()}")
         Log.error("==== TRACEBACK =====")
     finally:
         if c:
-            await c.close()
+            try:
+                await c.close()
+            except Exception:
+                pass
         Log.info(f"client {addr} disconnected.")

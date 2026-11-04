@@ -19,6 +19,6 @@ exclude = ["kcpshimmy"]
 "gameserver/handler.py" = ["E402", "F401"]
 
 [tool.uv.sources]
-betterproto2-compiler = { git = "https://github.com/yuvlian/fasterproto2", subdirectory = "betterproto2_compiler", rev = "b4d1805" }
-betterproto2 = { git = "https://github.com/yuvlian/fasterproto2", subdirectory = "betterproto2", rev = "b4d1805" }
+betterproto2-compiler = { path = "G:/sf/tools/fasterproto2/betterproto2_compiler" }
+betterproto2 = { path = "G:/sf/tools/fasterproto2/betterproto2" }
 

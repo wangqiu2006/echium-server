@@ -8,8 +8,12 @@ from proto import (
     BattleRelic,
     BattleTarget,
     BattleTargetList,
+    GetCurBattleInfoCsReq,
+    GetCurBattleInfoScRsp,
     PveBattleResultCsReq,
     PveBattleResultScRsp,
+    QuitBattleCsReq,
+    QuitBattleScRsp,
     RelicAffix,
     SceneBattleInfo,
     StartCocoonStageCsReq,
@@ -30,6 +34,17 @@ async def on_p_v_e_battle_result(c: Connection, pkt: Packet) -> None:
     )
 
     await c.send_packet(rsp, override_name="PVEBattleResultScRsp")
+
+
+@handler
+async def on_quit_battle(c: Connection, pkt: Packet) -> None:
+    await c.send_packet(QuitBattleScRsp(retcode=0))
+
+
+@handler
+async def on_get_cur_battle_info(c: Connection, pkt: Packet) -> None:
+    await c.send_packet(GetCurBattleInfoScRsp(retcode=0))
+
 
 
 async def create_battle_info(
@@ -69,6 +84,10 @@ async def create_battle_info(
 
     # battle avatars
     for aidx, aid in lineup.items():
+    avatars_in_lineup = (
+        list(lineup.values()) if isinstance(lineup, dict) else list(lineup)
+    )
+    for aidx, aid in enumerate(avatars_in_lineup):
         if first_avatar_id == 0:
             first_avatar_id = aid
             first_avatar_idx = aidx

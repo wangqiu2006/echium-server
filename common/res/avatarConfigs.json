@@ -552,6 +552,36 @@
         "8010": {
             "weaknessBuffId": 1000114,
             "techniqueBuffIds": []
+        },
+        "1510": {
+            "weaknessBuffId": 1000112,
+            "techniqueBuffIds": [
+                151001
+            ]
+        },
+        "1512": {
+            "weaknessBuffId": 1000111,
+            "techniqueBuffIds": [
+                151201
+            ]
+        },
+        "1513": {
+            "weaknessBuffId": 1000117,
+            "techniqueBuffIds": [
+                151301
+            ]
+        },
+        "1508": {
+            "weaknessBuffId": 1000116,
+            "techniqueBuffIds": [
+                150801
+            ]
+        },
+        "1509": {
+            "weaknessBuffId": 1000114,
+            "techniqueBuffIds": [
+                150901
+            ]
         }
     }
 }

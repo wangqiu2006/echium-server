@@ -47,7 +47,7 @@ class Packet:
             raise EOFError("conn closed")
 
         if header_data[:4] != HEAD_MAGIC:
-            raise ValueError("invalid head magic")
+            raise ValueError(f"invalid head magic: got {header_data[:4].hex()}, expected {HEAD_MAGIC.hex()}, full header={header_data.hex()}")
 
         cmd, head_len, body_len = struct.unpack_from(">HHI", header_data, 4)
 
@@ -60,6 +60,6 @@ class Packet:
             raise EOFError("conn closed")
 
         if tail != TAIL_MAGIC:
-            raise ValueError("invalid tail magic")
+            raise ValueError(f"invalid tail magic for cmd={cmd}: got {tail.hex()}, expected {TAIL_MAGIC.hex()}")
 
         return cls(cmd=cmd, head=head, body=body)
